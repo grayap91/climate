@@ -13,6 +13,11 @@ public class IndexController {
 
     @GetMapping("/")
     public String index() {
+        return "login";
+    }
+
+    @GetMapping("/ajax")
+    public String anotherIndex() {
         return "ajax";
     }
 
