@@ -6,30 +6,29 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import webapp.model.AjaxResponseBody;
-import webapp.model.SearchCriteria;
-import webapp.model.User;
-import webapp.services.UserService;
+import webapp.model.BidAcceptResponseBody;
+import webapp.model.Bid;
+import webapp.services.AllocationService;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-public class SearchController {
+public class BidAcceptController {
 
-    UserService userService;
+
+    AllocationService allocationService;
 
     @Autowired
-    public void setUserService(UserService userService) {
-        this.userService = userService;
+    public void setAllocationService(AllocationService allocationService) {
+        this.allocationService = allocationService;
     }
 
-    @PostMapping("/api/search")
+    @PostMapping("/api/bids")
     public ResponseEntity<?> getSearchResultViaAjax(
-            @Valid @RequestBody SearchCriteria search, Errors errors) {
+            @Valid @RequestBody Bid bid, Errors errors) {
 
-        AjaxResponseBody result = new AjaxResponseBody();
+        BidAcceptResponseBody result = new BidAcceptResponseBody();
 
         //If error, just return a 400 bad request, along with the error message
         if (errors.hasErrors()) {
@@ -41,14 +40,17 @@ public class SearchController {
             return ResponseEntity.badRequest().body(result);
 
         }
-
-        List<User> users = userService.findByUserNameOrEmail(search.getUsername());
-        if (users.isEmpty()) {
-            result.setMsg("no user found!");
-        } else {
-            result.setMsg("success");
+        else
+        {
+            result.setMsg("okay");
+            String gameId = bid.getGameId();
+            String userId = bid.getUserId();
+            //validate the 2 above and then figure out the allocation code
+            //validate
+            //all the magic has to happen here
+            result.setNumAllocated(allocationService.allocate());
         }
-        result.setResult(users);
+
 
         return ResponseEntity.ok(result);
 

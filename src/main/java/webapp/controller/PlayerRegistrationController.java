@@ -7,7 +7,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import webapp.datastores.GameRegisterActor;
+import webapp.datastores.GameDatastore;
 import webapp.model.PlayerRegistrationResponseBody;
 
 import javax.validation.Valid;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class PlayerRegistrationController {
 
     @Autowired
-    GameRegisterActor players;
+    GameDatastore players;
 
     @PostMapping("/api/register")
     public ResponseEntity<?> registerUserInGame(@Valid @RequestBody String username, Errors errors)

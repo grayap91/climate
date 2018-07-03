@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
  * Not actually a web controller, just a persistent bean that handles registration
  */
 @Component
-public class GameRegisterActor {
+public class GameDatastore {
 
     public static final int numPlayerLimit = 2  ;
 

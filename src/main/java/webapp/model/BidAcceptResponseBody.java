@@ -5,7 +5,7 @@ package webapp.model;
  */
 import java.util.List;
 
-public class AjaxResponseBody {
+public class BidAcceptResponseBody {
 
     public String getMsg() {
         return msg;
@@ -15,14 +15,17 @@ public class AjaxResponseBody {
         this.msg = msg;
     }
 
-    public List<User> getResult() {
-        return result;
-    }
 
-    public void setResult(List<User> result) {
-        this.result = result;
-    }
 
     String msg;
-    List<User> result;
+
+    int numAllocated;
+
+    public int getNumAllocated() {
+        return numAllocated;
+    }
+
+    public void setNumAllocated(int numAllocated) {
+        this.numAllocated = numAllocated;
+    }
 }

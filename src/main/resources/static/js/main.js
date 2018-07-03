@@ -1,34 +1,46 @@
 $(document).ready(function () {
     console.log("Username from previous page ", getParameterByName('user'));
+    console.log("Username from previous page ", getParameterByName('game'));
+
+    var userId = getParameterByName('user')
+    var gameId = getParameterByName('game')
     $("#search-form").submit(function (event) {
 
         //stop submit the form, we will post it manually.
             event.preventDefault();
 
-        fire_ajax_submit();
+        fire_ajax_submit(userId, gameId);
 
     });
 
 });
 
-function fire_ajax_submit() {
+function fire_ajax_submit(userId, gameId) {
 
-    var search = {}
-    search["username"] = $("#username").val();
+    var bids = {}
+    bids["bid1"] = $("#bid1").val();
+    bids["bid2"] = $("#bid2").val();
+    bids["bid3"] = $("#bid3").val();
+    bids['userId'] = userId
+    bids['gameId'] = gameId
+
+    console.log("SUCCESS : ", bids["bid1"]);
+    console.log("SUCCESS : ", bids["bid2"]);
+    console.log("SUCCESS : ", bids["bid3"]);
 
     $("#btn-search").prop("disabled", true);
 
     $.ajax({
         type: "POST",
         contentType: "application/json",
-        url: "/api/search",
-        data: JSON.stringify(search),
+        url: "/api/bids",
+        data: JSON.stringify(bids),
         dataType: 'json',
         cache: false,
         timeout: 600000,
         success: function (data) {
 
-            var json = "<h4>Ajax Response</h4><pre>"
+            var json = "<h4>Allocated</h4><pre>"
                 + JSON.stringify(data, null, 4) + "</pre>";
             $('#feedback').html(json);
 
