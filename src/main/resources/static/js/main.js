@@ -4,18 +4,20 @@ $(document).ready(function () {
 
     var userId = getParameterByName('user')
     var gameId = getParameterByName('game')
+    var round = getParameterByName('round')
+    //insert a timeout button here maybe
     $("#search-form").submit(function (event) {
 
         //stop submit the form, we will post it manually.
             event.preventDefault();
 
-        fire_ajax_submit(userId, gameId);
+        fire_ajax_submit(userId, gameId, round);
 
     });
 
 });
 
-function fire_ajax_submit(userId, gameId) {
+function fire_ajax_submit(userId, gameId, round) {
 
     var bids = {}
     bids["bid1"] = $("#bid1").val();
@@ -23,6 +25,7 @@ function fire_ajax_submit(userId, gameId) {
     bids["bid3"] = $("#bid3").val();
     bids['userId'] = userId
     bids['gameId'] = gameId
+    bids['round'] = round
 
     console.log("SUCCESS : ", bids["bid1"]);
     console.log("SUCCESS : ", bids["bid2"]);

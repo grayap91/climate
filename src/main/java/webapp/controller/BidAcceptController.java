@@ -45,6 +45,8 @@ public class BidAcceptController {
             result.setMsg("okay");
             String gameId = bid.getGameId();
             String userId = bid.getUserId();
+            int round = bid.getRound();
+
             //validate the 2 above and then figure out the allocation code
             //validate
             //all the magic has to happen here

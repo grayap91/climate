@@ -15,7 +15,7 @@ public class AllocationService {
 
     @Autowired
     GameDatastore gameDatastore;
-    // Love Java 8
+
     public int allocate() {
         return 3;
     }

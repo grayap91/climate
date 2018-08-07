@@ -5,7 +5,20 @@ package webapp.model;
  */
 import org.hibernate.validator.constraints.NotBlank;
 
+import javax.validation.constraints.NotNull;
+
 public class Bid {
+
+    public int getRound() {
+        return round;
+    }
+
+    public void setRound(int round) {
+        this.round = round;
+    }
+
+    @NotNull(message = "round can't empty!")
+    int round;
 
     @NotBlank(message = "bid can't empty!")
     String bid1;

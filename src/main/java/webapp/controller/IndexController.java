@@ -21,4 +21,9 @@ public class IndexController {
         return "ajax";
     }
 
+    @GetMapping("/wait")
+    public String anotherIndex2() {
+        return "wait";
+    }
+
 }

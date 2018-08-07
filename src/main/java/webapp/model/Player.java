@@ -7,6 +7,15 @@ import webapp.util.Util;
  */
 public class Player {
 
+    PlayerType playerType;
+
+    public Player(String username, PlayerType playerType)
+    {
+        this.username = username;
+        this.userId = Util.getId4Name(username);
+        this.playerType = playerType;
+    }
+
     public Player(String username)
     {
         this.username = username;
@@ -57,4 +66,6 @@ public class Player {
     public int hashCode() {
         return username.hashCode();
     }
+
+
 }

@@ -2,7 +2,7 @@ $(document).ready(function () {
     $("#search-form").submit(function (event) {
 
         event.preventDefault();
-        var name = $("#username").val()
+        var name = $("#userId").val()
         register_user(name)
     });
     });
@@ -22,7 +22,9 @@ function register_user(name) {
             if(data['registered'])
             {
                 var gameId = data['gameId']
-                window.location = '/ajax?user=' + name+'&game=' +gameId;
+                //window.location = '/ajax?user=' + name+'&game=' +gameId+'&round=1';
+                window.location = '/wait?user=' + name+'&game=' +gameId;
+                //can change the round thing to something else later
             }
             var json = "<h4>Ajax Response</h4><pre>"
                 + JSON.stringify(data, null, 4) + "</pre>";

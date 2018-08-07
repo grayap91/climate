@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import webapp.datastores.GameDatastore;
 import webapp.model.PlayerRegistrationResponseBody;
+import webapp.model.PlayerType;
 
 import javax.validation.Valid;
 import java.util.stream.Collectors;
@@ -52,7 +53,7 @@ public class PlayerRegistrationController {
         }
         else
         {
-            String gameId = players.addPlayer(username);
+            String gameId = players.addPlayer(username, PlayerType.HUMAN);
             result.setGameId(gameId);
             result.setRegistered(true);
             result.setMsg(username+" registered");

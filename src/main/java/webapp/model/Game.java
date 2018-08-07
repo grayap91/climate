@@ -13,6 +13,8 @@ public class Game {
 
     public static final int numGoodsPerPeriod = 3;
 
+    public static final int numPlayersMax = 5;
+
     public Set<Player> getPlayerList() {
         return playerList;
     }
@@ -33,6 +35,11 @@ public class Game {
     }
 
     String gameId;
+
+    public boolean isReady()
+    {
+        return playerList.size() == numPlayersMax;
+    }
 
     @Override
     public boolean equals(Object o) {

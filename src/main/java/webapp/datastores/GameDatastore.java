@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import webapp.model.Game;
 import webapp.model.Player;
+import webapp.model.PlayerType;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -19,7 +20,11 @@ public class GameDatastore {
 
     public static final String gamePrefix = "game";
 
+    public static final String robotPrefix = "robot";
+
     private int numGamesCounter = 1;
+
+    private int robotIndex = 1;
 
     public synchronized void increment() {
         //need to figure out how this works exactly
@@ -40,9 +45,38 @@ public class GameDatastore {
         return getPlayers().contains(new Player(username));
     }
 
-    public String addPlayer(String username)
+    public boolean addRobotPlayer2Game(String gameId)
+    {
+        //add player to specified game
+        //game must exist before
+        if(!gameMap.containsKey(gameId))
+        {
+            return false;
+        }
+        else
+        {
+            Game game = gameMap.get(gameId);
+            //game must also have empty slots
+            if(game.isReady())
+            {
+                return false;
+            }
+            game.getPlayerList().add(new Player(generateRobotUsername(), PlayerType.MBS));
+            return true;
+        }
+    }
+
+    private String generateRobotUsername()
+    {
+        String out =  robotPrefix+Integer.toString(robotIndex);
+        robotIndex++;
+        return out;
+    }
+
+    public String addPlayer(String username, PlayerType playerType)
     {
         String gameId = createGameId(numGamesCounter);
+        Player player = new Player(username, playerType);
         if(gameMap.containsKey(gameId))
         {
             Game game = gameMap.get(gameId);
@@ -50,8 +84,9 @@ public class GameDatastore {
             if(players.size() < numPlayerLimit)
             {
                 //add player
-                players.add(new Player(username));
-                player2Game.put(new Player(username), new Game(gameId));
+
+                players.add(player);
+                player2Game.put(player, new Game(gameId));
             }
             else
             {
@@ -59,10 +94,10 @@ public class GameDatastore {
                 numGamesCounter++;
                 gameId = createGameId(numGamesCounter);
                 players = new HashSet<>();
-                players.add(new Player(username));
+                players.add(player);
                 game = new Game(gameId);
                 game.setPlayerList(players);
-                player2Game.put(new Player(username), new Game(gameId));
+                player2Game.put(player, new Game(gameId));
                 gameMap.put(gameId, game);
             }
         }
@@ -71,11 +106,11 @@ public class GameDatastore {
             //should only be hit the first time
             gameId = createGameId(numGamesCounter);
             Set<Player> players = new HashSet<>();
-            players.add(new Player(username));
+            players.add(player);
             Game game = new Game(gameId);
             game.setPlayerList(players);
             gameMap.put(gameId, game);
-            player2Game.put(new Player(username), new Game(gameId));
+            player2Game.put(player, new Game(gameId));
             //add a game with current counter
         }
         //logic to actually add a player to a game
@@ -85,6 +120,11 @@ public class GameDatastore {
     private String createGameId(int num)
     {
         return gamePrefix+num;
+    }
+
+    public boolean isGameFull(String gameId)
+    {
+        return gameMap.get(gameId).isReady();
     }
 
 }
