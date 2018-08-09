@@ -44,7 +44,7 @@ public class PlayerRegistrationController {
             return ResponseEntity.ok().body(result);
             //return bad
         }
-        if (players.containsPlayer(username))
+        if (players.containsPlayer(username, PlayerType.HUMAN))
         {
             result.setRegistered(false);
             result.setMsg("This user is already registered");

@@ -3,6 +3,7 @@ package webapp.model;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Predicate;
 
 /**
  * Created by Gautam on 2018-05-23.
@@ -40,6 +41,50 @@ public class Game {
     {
         return playerList.size() == numPlayersMax;
     }
+
+    public Player getPlayerById(String userId)
+    {
+        for(Player player : playerList)
+        {
+            if(player.getUserId().equals(userId))
+            {
+                return player;
+            }
+        }
+        return null;
+    }
+
+    public boolean allBidsIn(int round)
+    {
+        Map map = biddingHistory.getBidMap(round);
+        if(map == null)
+        {
+            return false;
+        }
+        boolean value = true;
+        for(Player player : getPlayerList())
+        {
+            value = value && map.containsKey(player);
+        }
+        return value;
+    }
+
+    public void processBid(String userId, Bid bid)
+    {
+        Player player = getPlayerById(userId);
+        processBid(player, bid);
+
+    }
+
+    public void processBid(Player player, Bid bid)
+    {
+        if(playerList.contains(player))
+        {
+            biddingHistory.addBid(player, bid);
+        }
+
+    }
+
 
     @Override
     public boolean equals(Object o) {

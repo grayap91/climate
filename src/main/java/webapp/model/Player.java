@@ -24,16 +24,6 @@ public class Player {
 
     String username;
 
-    public String getGameId() {
-        return gameId;
-    }
-
-    public void setGameId(String gameId) {
-        this.gameId = gameId;
-    }
-
-    String gameId;
-
     public String getUsername() {
         return username;
     }
@@ -52,6 +42,7 @@ public class Player {
 
     String userId;
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -59,13 +50,16 @@ public class Player {
 
         Player player = (Player) o;
 
-        return username.equals(player.username);
+        if (playerType != player.playerType) return false;
+        if (username != null ? !username.equals(player.username) : player.username != null) return false;
+        return userId != null ? userId.equals(player.userId) : player.userId == null;
     }
 
     @Override
     public int hashCode() {
-        return username.hashCode();
+        int result = playerType != null ? playerType.hashCode() : 0;
+        result = 31 * result + (username != null ? username.hashCode() : 0);
+        result = 31 * result + (userId != null ? userId.hashCode() : 0);
+        return result;
     }
-
-
 }

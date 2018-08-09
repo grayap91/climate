@@ -1,5 +1,6 @@
 package webapp.model;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -7,20 +8,8 @@ import java.util.Map;
  */
 public class AllocationHistory {
 
-    Map<Player, Integer> allocationMap;
+    Map<Integer, Map<Player, Integer>> allocationMap = new HashMap<>();
+    //key by round
 
-    public int getPlayerAllocation(Player player)
-    {
-        return allocationMap.get(player);
-    }
 
-    public void initializePlayer(Player player)
-    {
-        allocationMap.put(player, 0);
-    }
-
-    public void incrementPlayerAllocation(Player player)
-    {
-        allocationMap.put(player, allocationMap.get(player)+1);
-    }
 }

@@ -40,9 +40,9 @@ public class GameDatastore {
     }
 
 
-    public boolean containsPlayer(String username)
+    public boolean containsPlayer(String username, PlayerType playerType)
     {
-        return getPlayers().contains(new Player(username));
+        return getPlayers().contains(new Player(username, playerType));
     }
 
     public boolean addRobotPlayer2Game(String gameId)
@@ -126,5 +126,17 @@ public class GameDatastore {
     {
         return gameMap.get(gameId).isReady();
     }
+
+    public Set<Player> getPlayersInGame(String gameId)
+    {
+        return gameMap.get(gameId).getPlayerList();
+    }
+
+    public Game getGame(String gameId)
+    {
+        return gameMap.get(gameId);
+    }
+
+
 
 }
