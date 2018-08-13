@@ -7,6 +7,8 @@ import webapp.model.Player;
 import webapp.model.PlayerType;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 /**
@@ -16,7 +18,7 @@ import java.util.stream.Collectors;
 @Component
 public class GameDatastore {
 
-    public static final int numPlayerLimit = 2  ;
+    public static final int numPlayerLimit = 5  ;
 
     public static final String gamePrefix = "game";
 
@@ -31,9 +33,13 @@ public class GameDatastore {
         numGamesCounter++;
     }
 
+    Map<String, Boolean> gameStartMap = new ConcurrentHashMap<>();
+
     Map<Player, Game> player2Game = new HashMap<>();
 
     Map<String, Game> gameMap = new HashMap<>();
+    //everytime a new game is launched we need an object that can watch this game
+    // and trigger allocations after rounds are complete
 
     public Set<Player> getPlayers() {
         return player2Game.keySet();
@@ -137,6 +143,23 @@ public class GameDatastore {
         return gameMap.get(gameId);
     }
 
+
+    public void startGame(String gameId)
+    {
+        if(gameStartMap.containsKey(gameId))
+        {
+            return;
+        }
+        else
+        {
+            gameStartMap.put(gameId, true);
+            //maybe clean up somehow?
+            Thread thread = new Thread(gameMap.get(gameId));
+            thread.start();
+        }
+
+
+    }
 
 
 }

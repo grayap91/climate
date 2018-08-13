@@ -44,6 +44,20 @@ public class BidAcceptController {
             if(game != null)
             {
                 game.processBid(bid.getUserId(), bid);
+                while(true)
+                {
+                    if(game.allBidsIn(bid.getRound()))
+                    {
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        int allocation = game.getAllocation(bid.getUserId(), bid.getRound());
+                        result.setNumAllocated(allocation);
+                        break;
+                    }
+                }
             }
             //stores it
             //check if all human bids are complete then load robot bids?

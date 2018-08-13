@@ -29,6 +29,7 @@ public class BiddingHistory {
         {
             Map<Player, Bid> map = new HashMap<>();
             map.put(player, bid);
+            bids.put(round, map);
         }
 
     }
@@ -39,9 +40,6 @@ public class BiddingHistory {
     }
 
     public Map<Player, Bid> getBidMap(int round) { return bids.get(round); }
-
-
-
 
 
 }

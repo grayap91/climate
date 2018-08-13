@@ -44,6 +44,8 @@ public class PlayerRegistrationController {
             return ResponseEntity.ok().body(result);
             //return bad
         }
+
+        username = username.replace("\"", "");
         if (players.containsPlayer(username, PlayerType.HUMAN))
         {
             result.setRegistered(false);

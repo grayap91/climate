@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import webapp.datastores.GameDatastore;
 import webapp.model.Bid;
 import webapp.model.BidAcceptResponseBody;
+import webapp.model.Game;
 import webapp.model.GameRegistrationResponseBody;
 
 import javax.validation.Valid;
@@ -44,18 +45,20 @@ public class GameRegistrationController {
             gameId = gameId.replace("\"", "");
             //this is a hack , figure out why you're getting these extra quotes
             while(true) {
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 if (datastore.isGameFull(gameId)) {
                     break;
                 } else {
                     datastore.addRobotPlayer2Game(gameId);
-                    try {
-                        Thread.sleep(5000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
                     //wait x amount of time and then add in a new automatic player
                 }
             }
+            datastore.startGame(gameId);
+            //have to only start the game once
         }
 
 
