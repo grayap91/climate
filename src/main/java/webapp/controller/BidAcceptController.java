@@ -22,7 +22,7 @@ public class BidAcceptController {
 
 
     @PostMapping("/api/bids")
-    public ResponseEntity<?> getSearchResultViaAjax(
+    public ResponseEntity<?> acceptBid(
             @Valid @RequestBody Bid bid, Errors errors) {
 
         BidAcceptResponseBody result = new BidAcceptResponseBody();

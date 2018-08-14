@@ -26,4 +26,9 @@ public class IndexController {
         return "wait";
     }
 
+    @GetMapping("/finish")
+    public String anotherIndex3() {
+        return "finish";
+    }
+
 }

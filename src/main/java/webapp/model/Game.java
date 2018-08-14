@@ -231,4 +231,9 @@ public class Game implements Runnable {
     {
         return allocationHistory.getAllocationForPlayer(getPlayerById(userId), round);
     }
+
+    public Bid getBid(String userId, int round)
+    {
+        return biddingHistory.getBid(getPlayerById(userId), round);
+    }
 }

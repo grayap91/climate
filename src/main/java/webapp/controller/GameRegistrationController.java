@@ -25,7 +25,7 @@ public class GameRegistrationController {
     GameDatastore datastore;
 
     @PostMapping("/api/game")
-    public ResponseEntity<?> getSearchResultViaAjax(
+    public ResponseEntity<?> startGame(
             @Valid @RequestBody String gameId, Errors errors) {
 
         GameRegistrationResponseBody result = new GameRegistrationResponseBody();
