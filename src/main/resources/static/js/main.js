@@ -104,7 +104,7 @@ function fire_ajax_submit(userId, gameId, round) {
             }
             else
             {
-                window.location = '/finish'
+                window.location = '/finish?user=' + userId+'&game=' +gameId+'&round='+round;
             }
 
         },
