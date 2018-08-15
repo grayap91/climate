@@ -15,6 +15,51 @@ public class BiddingHistory {
 
     //multi unit auction, each player submits a set of bids for each time period
 
+    public Map<Integer, Map<Player, List<Integer>>> prices = new HashMap<>(10);
+
+    public void addPrice(Player player, int round, int price)
+    {
+        Map<Player, List<Integer>> map;
+        if(prices.containsKey(round))
+        {
+            map = prices.get(round);
+            if(map.containsKey(player))
+            {
+                map.get(player).add(price);
+            }
+            else
+            {
+                List<Integer> list = new ArrayList<>();
+                list.add(price);
+                map.put(player, list);
+            }
+        }
+        else
+        {
+            map = new HashMap<>();
+            List<Integer> list = new ArrayList<>();
+            list.add(price);
+            map.put(player, list);
+            prices.put(round, map);
+        }
+
+
+    }
+
+    public List<Integer> getPrices(Player player, int round)
+    {
+        List<Integer> list = new ArrayList<>();
+        if(prices.containsKey(round))
+        {
+            if(prices.get(round).containsKey(player))
+            {
+                return prices.get(round).get(player);
+            }
+        }
+        return list;
+    }
+
+
     public Map<Integer, Map<Player, Bid>> bids = new HashMap<>(10);
     //might need some kind of synchronization here
 

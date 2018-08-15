@@ -51,7 +51,7 @@ function getUserHistory(userId, gameId, round)  {
                                bids = hist['bids']
                                row.cells[0].innerHTML = r
                                row.cells[1].innerHTML = allocation
-                               row.cells[2].innerHTML = price
+                               row.cells[2].innerHTML = price.join()
                                row.cells[3].innerHTML = bids.join()
                                }
 

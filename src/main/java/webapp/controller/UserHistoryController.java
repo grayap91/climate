@@ -62,7 +62,7 @@ public class UserHistoryController {
                 bids.add(Integer.parseInt(bid.getBid2()));
                 bids.add(Integer.parseInt(bid.getBid3()));
                 hist.setAllocation(allocation);
-                hist.setPrice(0);
+                hist.setPrice(game.getPrices(userId, i));
                 hist.setBids(bids);
                 list.add(hist);
             }
