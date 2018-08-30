@@ -6,20 +6,37 @@ $(document).ready(function () {
     if(round >=2)
     { getUserHistory(userId, gameId, round) }
 
+    var timeout = 100000
+    setTimeout(function(){
+       fire_ajax_submit(userId, gameId, round, 0, 0, 0);
+     }, timeout);
+
+    var totalSeconds = 0
+    var secondsLabel = document.getElementById("seconds");
+    setInterval(function(){
+    ++totalSeconds
+    secondsLabel.innerHTML = (timeout/1000)-totalSeconds
+    }, 1000);
 
 
+    //200 seconds to submit bids
 
     //insert a timeout button here maybe
     $("#search-form").submit(function (event) {
 
         //stop submit the form, we will post it manually.
             event.preventDefault();
+            bid1 = $("#bid1").val();
+            bid2 = $("#bid2").val();
+            bid3 = $("#bid3").val();
 
-        fire_ajax_submit(userId, gameId, round);
+        fire_ajax_submit(userId, gameId, round, bid1, bid2, bid3);
 
     });
 
 });
+
+
 
 function getUserHistory(userId, gameId, round)  {
              var histReq = {}
@@ -65,12 +82,12 @@ function getUserHistory(userId, gameId, round)  {
 
 
 
-function fire_ajax_submit(userId, gameId, round) {
+function fire_ajax_submit(userId, gameId, round, bid1, bid2, bid3) {
 
     var bids = {}
-    bids["bid1"] = $("#bid1").val();
-    bids["bid2"] = $("#bid2").val();
-    bids["bid3"] = $("#bid3").val();
+    bids["bid1"] = bid1
+    bids["bid2"] = bid2
+    bids["bid3"] = bid3
     bids['userId'] = userId
     bids['gameId'] = gameId
     bids['round'] = round

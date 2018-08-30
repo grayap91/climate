@@ -4,9 +4,15 @@
 <head>
     <title>Auctions</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <link rel="stylesheet" type="text/css"
           href="webjars/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <style>
+b1 {
+    text-align: right;
+}
+
+</style>
 </head>
 <body>
 
@@ -20,25 +26,8 @@
 
 <div class="container" style="min-height: 500px">
 
-    <div id="firsttablediv">
-        <table id="firsttable" border="1">
-            <thead>
-            <th>Round</th>
-            <th>Allocated</th>
-            <th>Price</th>
-            <th>Bids</th>
-
-            </thead>
-            <tbody id="insertfirsttable">
-            </tbody>
-        </table>
-    </div>
-
-    <div class="starter-template">
-        <h1>Game Page</h1>
-
-        <div id="feedback"></div>
-
+    <div style="width: 100%; overflow: hidden;">
+        <div style="width: 800px; float: left;">
         <form class="form-horizontal" id="search-form">
             <div class="form-group form-group-lg">
                 <label class="col-xs-2 control-label">bid1</label>
@@ -67,8 +56,33 @@
                 </div>
             </div>
         </form>
-
+        </div>
+        <div id="tester" style="margin-left: 800px;width:40%;height:250px">
+            <h3>Value Chart</h3>
+        </div>
     </div>
+
+    <div style="width: 100%; overflow: hidden;">
+    <div id="firsttablediv" style="width: 800px; float: left;margin-top: 5;">
+        <h3>Bidding History</h3>
+        <table id="firsttable" border="1">
+            <thead>
+            <th>Round</th>
+            <th>Allocated</th>
+            <th>Price</th>
+            <th>Bids</th>
+
+            </thead>
+            <tbody id="insertfirsttable">
+            </tbody>
+        </table>
+    </div>
+    <div style="margin-left: 800px">
+    Timeout in <label id="seconds">00</label> seconds
+    </div>
+    </div>
+
+
 </div>
 
 
@@ -76,6 +90,13 @@
         src="webjars/jquery/2.2.4/jquery.min.js"></script>
 
 <script type="text/javascript" src="js/main.js"></script>
+
+<script>TESTER = document.getElementById('tester');
+	Plotly.plot( TESTER, [{
+	x: [1, 2, 3, 4, 5],
+	y: [1, 2, 4, 8, 16],
+	type : 'bar'}], {
+	margin: { t: 0 } } );</script>
 
 </body>
 </html>
