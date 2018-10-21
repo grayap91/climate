@@ -53,18 +53,36 @@ public class UserHistoryController {
                 //figure out what to do with all these later
             }
             List<UserRoundHistory> list = new ArrayList<>();
+            List<Integer> values = game.getValue(userId);
+            int cumProfit = 0;
+            int counter = 0;
             for(int i = 1; i< round; i++) {
+                int cumVal = 0;
                 UserRoundHistory hist = new UserRoundHistory();
                 int allocation = game.getAllocation(userId, i);
+                for(int k=counter;k<(counter+allocation);k++)
+                {
+                    cumVal+=values.get(k);
+                }
+                counter=counter+allocation;
                 Bid bid = game.getBid(userId, i);
                 List<Integer> bids = new ArrayList<>();
                 bids.add(Integer.parseInt(bid.getBid1()));
                 bids.add(Integer.parseInt(bid.getBid2()));
                 bids.add(Integer.parseInt(bid.getBid3()));
                 hist.setAllocation(allocation);
-                hist.setPrice(game.getPrices(userId, i));
+                List<Integer> prices = game.getPrices(userId, i);
+                int price = 0;
+                if(!(prices.isEmpty()))
+                {
+                    price = prices.get(0);
+                }
+                hist.setPrice(prices);
                 hist.setBids(bids);
                 list.add(hist);
+                cumProfit+=(cumVal - (allocation*price));
+                hist.setProfit(cumProfit);
+                //profit up until here
             }
             result.setList(list);
         }

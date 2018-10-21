@@ -13,6 +13,16 @@ public class UserRoundHistory {
 
     private List<Integer> bids;
 
+    public int getProfit() {
+        return profit;
+    }
+
+    public void setProfit(int profit) {
+        this.profit = profit;
+    }
+
+    private int profit;
+
     public int getAllocation() {
         return allocation;
     }
@@ -36,4 +46,5 @@ public class UserRoundHistory {
     public void setBids(List<Integer> bids) {
         this.bids = bids;
     }
+
 }

@@ -1,6 +1,7 @@
 package webapp.model;
 
 import org.apache.commons.lang3.tuple.Pair;
+import webapp.util.Util;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -23,6 +24,44 @@ public class Game implements Runnable {
 
     public Set<Player> getPlayerList() {
         return playerList;
+    }
+
+    public boolean addPlayer(Player player)
+    {
+        if(playerList.size() < numPlayersMax) {
+            playerList.add(player);
+            player2Value.put(player, Util.generateRandomValueProfile());
+            return true;
+        }
+        return false;
+
+    }
+
+    public List<Integer> getValue(String userId)
+    {
+        Player player = getPlayerById(userId);
+        if(player != null) {
+            return player2Value.get(player);
+        }
+        else {
+            return new ArrayList<Integer>();
+        }
+    }
+
+    Map<Player, List<Integer>> player2Value = new HashMap<>();
+
+    public int getTotalAllocation(String userId)
+    {
+        if(getPlayerById(userId)!= null)
+        {
+            return getTotalAllocation(getPlayerById(userId));
+        }
+        return 0;
+    }
+
+    private int getTotalAllocation(Player player)
+    {
+        return allocationHistory.getTotalAllocation(player);
     }
 
     public void setPlayerList(Set<Player> playerList) {

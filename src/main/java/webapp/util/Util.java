@@ -21,11 +21,11 @@ public class Util {
         //decreasing marginal value
         List<Integer> list = new ArrayList<>();
         Random random = new Random();
-        int num = random.nextInt(1000);
+        int num = random.nextInt(1000)+1;
         list.add(num);
-        for(int i=1; i<100; i++)
+        for(int i=1; i<=30; i++)
         {
-            num = random.nextInt(num);
+            num = random.nextInt(num)+1;
             list.add(num);
         }
         return list;

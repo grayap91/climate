@@ -61,6 +61,19 @@ public class AllocationHistory {
         }
     }
 
+    public int getTotalAllocation(Player player)
+    {
+        int total = 0;
+        int i=0;
+        while(i<=10)
+        {
+            if(allocationMap.containsKey(i)) {
+                total += getAllocationForPlayer(player, i);
+            }
+            i++;
+        }
+        return total;
+    }
 
 
 }

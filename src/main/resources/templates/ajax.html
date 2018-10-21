@@ -57,13 +57,13 @@ b1 {
             </div>
         </form>
         </div>
-        <div id="tester" style="margin-left: 800px;width:40%;height:250px">
+        <div id="tester" style="margin-left: 600px;width:40%;height:400px">
             <h3>Value Chart</h3>
         </div>
     </div>
 
     <div style="width: 100%; overflow: hidden;">
-    <div id="firsttablediv" style="width: 800px; float: left;margin-top: 5;">
+    <div id="firsttablediv" style="width: 800px; float: left;margin-top: 2;">
         <h3>Bidding History</h3>
         <table id="firsttable" border="1">
             <thead>
@@ -71,14 +71,14 @@ b1 {
             <th>Allocated</th>
             <th>Price</th>
             <th>Bids</th>
-
+            <th>Profit</th>
             </thead>
             <tbody id="insertfirsttable">
             </tbody>
         </table>
     </div>
     <div style="margin-left: 800px">
-    Timeout in <label id="seconds">00</label> seconds
+    Timeout in <label id="seconds">100</label> seconds
     </div>
     </div>
 
@@ -91,12 +91,7 @@ b1 {
 
 <script type="text/javascript" src="js/main.js"></script>
 
-<script>TESTER = document.getElementById('tester');
-	Plotly.plot( TESTER, [{
-	x: [1, 2, 3, 4, 5],
-	y: [1, 2, 4, 8, 16],
-	type : 'bar'}], {
-	margin: { t: 0 } } );</script>
+
 
 </body>
 </html>

@@ -20,7 +20,7 @@ $(document).ready(function () {
 
 
     //200 seconds to submit bids
-
+    get_values(userId,gameId,round)
     //insert a timeout button here maybe
     $("#search-form").submit(function (event) {
 
@@ -57,7 +57,7 @@ function getUserHistory(userId, gameId, round)  {
                                for(r=1;r<round;r++)
                                {
                                var row = table.insertRow(r)
-                               for(i=0;i<4;i++)
+                               for(i=0;i<5;i++)
                                {
                                    row.insertCell(i)
                                }
@@ -66,10 +66,12 @@ function getUserHistory(userId, gameId, round)  {
                                allocation = hist['allocation']
                                price = hist['price']
                                bids = hist['bids']
+                               profit = hist['profit']
                                row.cells[0].innerHTML = r
                                row.cells[1].innerHTML = allocation
                                row.cells[2].innerHTML = price.join()
                                row.cells[3].innerHTML = bids.join()
+                               row.cells[4].innerHTML = profit
                                }
 
                     },
@@ -80,6 +82,49 @@ function getUserHistory(userId, gameId, round)  {
         //really only needed from round 2 onwards
         }
 
+function get_values(userId, gameId, round)   {
+             var histReq = {}
+             histReq['userId'] = userId
+             histReq['gameId'] = gameId
+             histReq['round'] = round
+    $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            url: "/api/value",
+            data: JSON.stringify(histReq),
+            dataType: 'json',
+            cache: false,
+            timeout: 600000,
+            success: function (data) {
+
+                var index = []
+                for (var i =1;i<=data['values'].length;i++)
+                {
+                index.push(i)
+                }
+
+                TESTER = document.getElementById('tester');
+                	Plotly.plot( TESTER, [{
+                	x: index,
+                	y: data['values'],
+                	type : 'bar'}], {
+                	margin: { t: 0 } } );
+
+                console.log("SUCCESS : ", data['values']);
+                $("#btn-search").prop("disabled", false);
+            },
+            error: function (e) {
+
+                var json = "<h4>Ajax Response</h4><pre>"
+                    + e.responseText + "</pre>";
+                $('#feedback').html(json);
+
+                console.log("ERROR : ", e);
+                $("#btn-search").prop("disabled", false);
+
+            }
+        });
+}
 
 
 function fire_ajax_submit(userId, gameId, round, bid1, bid2, bid3) {

@@ -1,10 +1,13 @@
 package webapp.datastores;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import webapp.model.Game;
 import webapp.model.Player;
 import webapp.model.PlayerType;
+import webapp.model.ValueProfile;
+import webapp.util.Util;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -41,10 +44,10 @@ public class GameDatastore {
     //everytime a new game is launched we need an object that can watch this game
     // and trigger allocations after rounds are complete
 
+
     public Set<Player> getPlayers() {
         return player2Game.keySet();
     }
-
 
     public boolean containsPlayer(String username, PlayerType playerType)
     {
@@ -67,7 +70,7 @@ public class GameDatastore {
             {
                 return false;
             }
-            game.getPlayerList().add(new Player(generateRobotUsername(), PlayerType.MBS));
+            game.addPlayer(new Player(generateRobotUsername(), PlayerType.MBS));
             return true;
         }
     }
@@ -86,23 +89,14 @@ public class GameDatastore {
         if(gameMap.containsKey(gameId))
         {
             Game game = gameMap.get(gameId);
-            Set<Player> players = game.getPlayerList();
-            if(players.size() < numPlayerLimit)
-            {
-                //add player
-
-                players.add(player);
-                player2Game.put(player, new Game(gameId));
-            }
-            else
+            boolean added = game.addPlayer(player);
+            if(!added)
             {
                 //create a new game
                 numGamesCounter++;
                 gameId = createGameId(numGamesCounter);
-                players = new HashSet<>();
-                players.add(player);
                 game = new Game(gameId);
-                game.setPlayerList(players);
+                added = game.addPlayer(player);
                 player2Game.put(player, new Game(gameId));
                 gameMap.put(gameId, game);
             }
@@ -111,10 +105,8 @@ public class GameDatastore {
         {
             //should only be hit the first time
             gameId = createGameId(numGamesCounter);
-            Set<Player> players = new HashSet<>();
-            players.add(player);
             Game game = new Game(gameId);
-            game.setPlayerList(players);
+            boolean added = game.addPlayer(player);
             gameMap.put(gameId, game);
             player2Game.put(player, new Game(gameId));
             //add a game with current counter
