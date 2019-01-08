@@ -49,6 +49,7 @@ public class BiddingHistory {
     public List<Integer> getPrices(Player player, int round)
     {
         List<Integer> list = new ArrayList<>();
+        list.add(0);
         if(prices.containsKey(round))
         {
             if(prices.get(round).containsKey(player))

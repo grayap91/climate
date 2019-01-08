@@ -1,8 +1,14 @@
 package webapp.model;
 
+import com.opencsv.CSVWriter;
+import com.opencsv.bean.StatefulBeanToCsv;
+import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import org.apache.commons.lang3.tuple.Pair;
 import webapp.util.Util;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
@@ -21,6 +27,14 @@ public class Game implements Runnable {
     private int round = 1;
 
     private boolean[] allocated = new boolean[numRounds];
+
+    private List<OutputRow> outputRows = new ArrayList<>();
+
+    public void setWriteDir(String writeDir) {
+        this.writeDir = writeDir;
+    }
+
+    String writeDir;
 
     public Set<Player> getPlayerList() {
         return playerList;
@@ -204,6 +218,8 @@ public class Game implements Runnable {
                 //only do this once
                 allocate();
                 allocated[round-1] = true;
+                updateOutput(round);
+
             }
             else {
                 continue;
@@ -214,11 +230,45 @@ public class Game implements Runnable {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
             round++;
 
         }
+        String filename = writeDir+gameId+"_rows.csv";
+        try {
+            Writer writer = new FileWriter(filename);
+            StatefulBeanToCsv beanToCsv = new StatefulBeanToCsvBuilder(writer).build();
+            beanToCsv.write(outputRows);
+            writer.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
         //what do here?
+    }
+
+    public void updateOutput(int round)
+    {
+        for(Player player : playerList)
+        {
+            OutputRow row = new OutputRow();
+            row.setUserId(player.username);
+            row.setRound(round);
+            int allocation = allocationHistory.getAllocationForPlayer(player, round);
+            row.setAllocation(allocation);
+            int totalAllocationPrior = allocationHistory.getTotalAllocation(player) - allocation;
+            int[] values = player2Value.get(player).subList(totalAllocationPrior,totalAllocationPrior+3).stream().mapToInt(i->i).toArray();
+            row.setValue1(Integer.toString(values[0]));
+            row.setValue1(Integer.toString(values[0]));
+            row.setValue1(Integer.toString(values[0]));
+            Bid bid = biddingHistory.getBid(player, round);
+            row.setBid1(bid.getBid1());
+            row.setBid2(bid.getBid2());
+            row.setBid3(bid.getBid3());
+            row.setPrice(biddingHistory.getPrices(player, round).get(0));
+            outputRows.add(row);
+        }
+
     }
 
     private void allocate()

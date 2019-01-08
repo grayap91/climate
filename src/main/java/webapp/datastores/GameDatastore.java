@@ -21,6 +21,9 @@ import java.util.stream.Collectors;
 @Component
 public class GameDatastore {
 
+    @Value("${write.dir}")
+    private String writeLocation;
+
     public static final int numPlayerLimit = 5  ;
 
     public static final String gamePrefix = "game";
@@ -106,6 +109,7 @@ public class GameDatastore {
             //should only be hit the first time
             gameId = createGameId(numGamesCounter);
             Game game = new Game(gameId);
+            game.setWriteDir(writeLocation);
             boolean added = game.addPlayer(player);
             gameMap.put(gameId, game);
             player2Game.put(player, new Game(gameId));
