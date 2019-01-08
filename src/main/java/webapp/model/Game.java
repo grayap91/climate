@@ -233,7 +233,46 @@ public class Game implements Runnable {
             round++;
 
         }
+
+        writeRowLevelData();
+        writeValueData();
+        //what do here?
+    }
+
+    private void writeValueData()
+    {
+        List<String> out = new ArrayList<>();
+        String filename = writeDir+gameId+"_values.csv";
+        for (Player player : playerList)
+        {
+            StringBuilder sb  = new StringBuilder();
+            sb.append(player.getUserId());
+            List<Integer> values = player2Value.get(player);
+            for( int val : values)
+            {
+                sb.append(","+Integer.toString(val));
+            }
+            sb.append('\n');
+            out.add(sb.toString());
+        }
+        try {
+            Writer writer = new FileWriter(filename);
+            for(String s :out) {
+                writer.write(s);
+            }
+            writer.close();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void writeRowLevelData()
+    {
         String filename = writeDir+gameId+"_rows.csv";
+
         try {
             Writer writer = new FileWriter(filename);
             StatefulBeanToCsv beanToCsv = new StatefulBeanToCsvBuilder(writer).build();
@@ -244,7 +283,6 @@ public class Game implements Runnable {
         {
             e.printStackTrace();
         }
-        //what do here?
     }
 
     public void updateOutput(int round)
