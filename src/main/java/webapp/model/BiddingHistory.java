@@ -14,50 +14,17 @@ import java.util.Map;
 public class BiddingHistory {
 
     //multi unit auction, each player submits a set of bids for each time period
+    List<Integer> prices = new ArrayList<>(10);
 
-    public Map<Integer, Map<Player, List<Integer>>> prices = new HashMap<>(10);
-
-    public void addPrice(Player player, int round, int price)
+    public void addPrice(int round, int price)
     {
-        Map<Player, List<Integer>> map;
-        if(prices.containsKey(round))
-        {
-            map = prices.get(round);
-            if(map.containsKey(player))
-            {
-                map.get(player).add(price);
-            }
-            else
-            {
-                List<Integer> list = new ArrayList<>();
-                list.add(price);
-                map.put(player, list);
-            }
-        }
-        else
-        {
-            map = new HashMap<>();
-            List<Integer> list = new ArrayList<>();
-            list.add(price);
-            map.put(player, list);
-            prices.put(round, map);
-        }
-
+        prices.add(round-1, price);
 
     }
 
-    public List<Integer> getPrices(Player player, int round)
+    public int getPrice(int round)
     {
-        List<Integer> list = new ArrayList<>();
-        list.add(0);
-        if(prices.containsKey(round))
-        {
-            if(prices.get(round).containsKey(player))
-            {
-                return prices.get(round).get(player);
-            }
-        }
-        return list;
+        return prices.get(round-1);
     }
 
 

@@ -9,7 +9,15 @@ public class UserRoundHistory {
 
     private int allocation;
 
-    private List<Integer> price;
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    private int price;
 
     private List<Integer> bids;
 
@@ -31,13 +39,6 @@ public class UserRoundHistory {
         this.allocation = allocation;
     }
 
-    public List<Integer> getPrice() {
-        return price;
-    }
-
-    public void setPrice(List<Integer> price) {
-        this.price = price;
-    }
 
     public List<Integer> getBids() {
         return bids;

@@ -89,16 +89,13 @@ public class UserHistoryController {
                 bids.add(bid.getBid2Num());
                 bids.add(bid.getBid3Num());
                 hist.setAllocation(allocation);
-                List<Integer> prices = game.getPrices(userId, i);
-                int price = 0;
-                if(!(prices.isEmpty()))
-                {
-                    price = prices.get(0);
-                }
-                hist.setPrice(prices);
+                int price = game.getPrices(i);
+                hist.setPrice(price);
                 hist.setBids(bids);
                 list.add(hist);
-                cumProfit+=(cumVal - (allocation*price));
+                if(allocation >0) {
+                    cumProfit += (cumVal - (allocation * price));
+                }
                 hist.setProfit(cumProfit);
                 //profit up until here
             }

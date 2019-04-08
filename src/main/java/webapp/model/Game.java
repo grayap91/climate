@@ -177,9 +177,9 @@ public class Game implements Runnable {
 
     }
 
-    public List<Integer> getPrices(String userId, int round)
+    public int getPrices(int round)
     {
-        return biddingHistory.getPrices(getPlayerById(userId), round);
+        return biddingHistory.getPrice(round);
 
     }
 
@@ -316,7 +316,7 @@ public class Game implements Runnable {
             row.setBid1(bid.getBid1());
             row.setBid2(bid.getBid2());
             row.setBid3(bid.getBid3());
-            row.setPrice(biddingHistory.getPrices(player, round).get(0));
+            row.setPrice(biddingHistory.getPrice(round));
             outputRows.add(row);
         }
 
@@ -331,15 +331,15 @@ public class Game implements Runnable {
         //this assumes the bidding history for every player is in
         Map<Player, Bid> map = biddingHistory.getBidMap(round);
         List<Pair<Player, Integer>> list = transformMap(map);
+        biddingHistory.addPrice(round, getPrice(list));
         for(int i = 0; i<= numGoodsPerPeriod-1; i++)
         {
             Player player = list.get(i).getLeft();
             allocationHistory.incrementAllocationForPlayer(player, round);
-            biddingHistory.addPrice(player, round, getPrice(list, 0));
         }
     }
 
-    private int getPrice(List<Pair<Player, Integer>> list, int index)
+    private int getPrice(List<Pair<Player, Integer>> list)
     {
         //no need to use the index in this implementation
         return list.get(numGoodsPerPeriod).getRight();
