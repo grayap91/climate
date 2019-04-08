@@ -233,16 +233,16 @@ public class Game implements Runnable {
             round++;
 
         }
-
-        writeRowLevelData();
-        writeValueData();
+        long number = (long) Math.floor(Math.random() * 9_000_000_000L) + 1_000_000_000L;
+        writeRowLevelData(number);
+        writeValueData(number);
         //what do here?
     }
 
-    private void writeValueData()
+    private void writeValueData(long number)
     {
         List<String> out = new ArrayList<>();
-        String filename = writeDir+gameId+"_values.csv";
+        String filename = writeDir+number+"_values.csv";
         for (Player player : playerList)
         {
             StringBuilder sb  = new StringBuilder();
@@ -269,9 +269,9 @@ public class Game implements Runnable {
 
     }
 
-    private void writeRowLevelData()
+    private void writeRowLevelData(long number)
     {
-        String filename = writeDir+gameId+"_rows.csv";
+        String filename = writeDir+number+"_rows.csv";
 
         try {
             Writer writer = new FileWriter(filename);
@@ -337,9 +337,10 @@ public class Game implements Runnable {
         List<Pair<Player, Integer>> list = new ArrayList<>();
         for(Map.Entry<Player, Bid> entry : map.entrySet())
         {
-            Pair<Player, Integer> p1 = Pair.of(entry.getKey(), Integer.parseInt(entry.getValue().getBid1()));
-            Pair<Player, Integer> p2 = Pair.of(entry.getKey(), Integer.parseInt(entry.getValue().getBid2()));
-            Pair<Player, Integer> p3 = Pair.of(entry.getKey(), Integer.parseInt(entry.getValue().getBid3()));
+            Bid bid = entry.getValue();
+            Pair<Player, Integer> p1 = Pair.of(entry.getKey(), bid.getBid1Num());
+            Pair<Player, Integer> p2 = Pair.of(entry.getKey(), bid.getBid2Num());
+            Pair<Player, Integer> p3 = Pair.of(entry.getKey(), bid.getBid3Num());
             list.add(p1);
             list.add(p2);
             list.add(p3);

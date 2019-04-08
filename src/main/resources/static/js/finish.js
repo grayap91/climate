@@ -27,7 +27,7 @@ function getUserHistory(userId, gameId, round)  {
                                for(r=1;r<round;r++)
                                {
                                var row = table.insertRow(r)
-                               for(i=0;i<4;i++)
+                               for(i=0;i<5;i++)
                                {
                                    row.insertCell(i)
                                }
@@ -36,10 +36,12 @@ function getUserHistory(userId, gameId, round)  {
                                allocation = hist['allocation']
                                price = hist['price']
                                bids = hist['bids']
+                               profit = hist['profit']
                                row.cells[0].innerHTML = r
                                row.cells[1].innerHTML = allocation
                                row.cells[2].innerHTML = price.join()
                                row.cells[3].innerHTML = bids.join()
+                               row.cells[4].innerHTML = profit
                                }
 
                     },
@@ -49,7 +51,6 @@ function getUserHistory(userId, gameId, round)  {
                  });
         //really only needed from round 2 onwards
         }
-
 
 function getParameterByName(name, url) {
     if (!url) url = window.location.href;

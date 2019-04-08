@@ -67,9 +67,9 @@ public class UserHistoryController {
                 counter=counter+allocation;
                 Bid bid = game.getBid(userId, i);
                 List<Integer> bids = new ArrayList<>();
-                bids.add(Integer.parseInt(bid.getBid1()));
-                bids.add(Integer.parseInt(bid.getBid2()));
-                bids.add(Integer.parseInt(bid.getBid3()));
+                bids.add(bid.getBid1Num());
+                bids.add(bid.getBid2Num());
+                bids.add(bid.getBid3Num());
                 hist.setAllocation(allocation);
                 List<Integer> prices = game.getPrices(userId, i);
                 int price = 0;

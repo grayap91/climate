@@ -55,6 +55,39 @@ public class Bid {
         return bid1;
     }
 
+    public int getBid1Num()    {
+        try{
+            return (int)Double.parseDouble(bid1);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    public int getBid2Num()    {
+        try{
+            return (int)Double.parseDouble(bid2);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    public int getBid3Num()    {
+        try{
+            return (int)Double.parseDouble(bid3);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
     public void setBid1(String bid1) {
         this.bid1 = bid1;
     }
