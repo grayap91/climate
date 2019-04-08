@@ -25,6 +25,9 @@ public class GameDatastore {
     @Value("${write.dir}")
     private String writeLocation;
 
+    @Value("${robot.ratio:1}")
+    private int ratio;
+
     public static final int numPlayerLimit = 5  ;
 
     public static final String gamePrefix = "game";
@@ -118,6 +121,7 @@ public class GameDatastore {
             gameId = createGameId(numGamesCounter);
             Game game = new Game(gameId);
             game.setWriteDir(writeLocation);
+            game.setRatio(ratio);
             boolean added = game.addPlayer(player);
             gameMap.put(gameId, game);
             player2Game.put(player, new Game(gameId));
