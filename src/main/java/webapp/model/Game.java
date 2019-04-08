@@ -183,15 +183,15 @@ public class Game implements Runnable {
 
     }
 
-    public int getRatio() {
+    public double getRatio() {
         return ratio;
     }
 
-    public void setRatio(int ratio) {
+    public void setRatio(double ratio) {
         this.ratio = ratio;
     }
 
-    int ratio;
+    double ratio;
 
     private void submitRobotBids(int round)
     {
@@ -206,9 +206,9 @@ public class Game implements Runnable {
                 bid.setGameId(gameId);
                 bid.setRound(round);
                 bid.setUserId(player.getUserId());
-                bid.setBid1(Integer.toString(values.get(allocation)*ratio));
-                bid.setBid2(Integer.toString(values.get(allocation+1)*ratio));
-                bid.setBid3(Integer.toString(values.get(allocation+2)*ratio));
+                bid.setBid1(Integer.toString((int)(values.get(allocation)*ratio)));
+                bid.setBid2(Integer.toString((int)(values.get(allocation+1)*ratio)));
+                bid.setBid3(Integer.toString((int)(values.get(allocation+2)*ratio)));
                 processBid(player, bid);
             }
         }

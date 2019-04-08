@@ -25,8 +25,8 @@ public class GameDatastore {
     @Value("${write.dir}")
     private String writeLocation;
 
-    @Value("${robot.ratio:1}")
-    private int ratio;
+    @Value("${robot.ratio:1.0}")
+    private double ratio;
 
     public static final int numPlayerLimit = 5  ;
 
