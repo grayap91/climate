@@ -70,7 +70,7 @@ public class GameRegistrationController {
                     }
                 }
 
-
+            datastore.startGame(gameId);
             //have to only start the game once
         }
 
