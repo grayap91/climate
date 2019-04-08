@@ -1,6 +1,7 @@
 package webapp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +16,8 @@ import webapp.model.GameRegistrationResponseBody;
 import javax.validation.Valid;
 import java.util.stream.Collectors;
 
+import static webapp.datastores.GameDatastore.numPlayerLimit;
+
 /**
  * Created by Gautam on 2018-08-05.
  */
@@ -23,6 +26,11 @@ public class GameRegistrationController {
 
     @Autowired
     GameDatastore datastore;
+
+    @Value("${waitTime:50000}")
+    private int waitTime;
+
+
 
     @PostMapping("/api/game")
     public ResponseEntity<?> startGame(
@@ -44,20 +52,25 @@ public class GameRegistrationController {
         {
             gameId = gameId.replace("\"", "");
             //this is a hack , figure out why you're getting these extra quotes
-            while(true) {
+
                 try {
-                    Thread.sleep(3000);
+                    Thread.sleep(waitTime);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
                 if (datastore.isGameFull(gameId)) {
-                    break;
+                    datastore.startGame(gameId);
                 } else {
-                    datastore.addRobotPlayer2Game(gameId);
-                    //wait x amount of time and then add in a new automatic player
+                    int num = datastore.getPlayersInGame(gameId).size();
+                    int players2add = numPlayerLimit - num;
+                    while(players2add >0)
+                    {
+                        datastore.addRobotPlayer2Game(gameId);
+                        players2add--;
+                    }
                 }
-            }
-            datastore.startGame(gameId);
+
+
             //have to only start the game once
         }
 

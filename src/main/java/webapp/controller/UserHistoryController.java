@@ -24,6 +24,24 @@ public class UserHistoryController {
     @Autowired
     GameDatastore datastore;
 
+    @PostMapping("/api/users")
+    public ResponseEntity<?> getUserList(
+            @Valid @RequestBody String gameId, Errors errors) {
+        if (errors.hasErrors()) {
+
+            String msg = errors.getAllErrors()
+                    .stream().map(x -> x.getDefaultMessage())
+                    .collect(Collectors.joining(","));
+
+            return ResponseEntity.badRequest().body(msg);
+
+        } else {
+            gameId = gameId.replace("\"", "");
+            List<String> list = datastore.getPlayersInGame(gameId).stream().map(x -> x.getUserId()).collect(Collectors.toList());
+            return ResponseEntity.ok(list);
+        }
+    }
+
     @PostMapping("/api/history")
     public ResponseEntity<?> getAllocation(
             @Valid @RequestBody HistoryRequest request, Errors errors) {

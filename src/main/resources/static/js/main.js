@@ -6,6 +6,9 @@ $(document).ready(function () {
     if(round >=2)
     { getUserHistory(userId, gameId, round) }
 
+    get_user_list(gameId)
+
+
     var timeout = 100000
     setTimeout(function(){
        fire_ajax_submit(userId, gameId, round, 0, 0, 0);
@@ -81,6 +84,46 @@ function getUserHistory(userId, gameId, round)  {
                  });
         //really only needed from round 2 onwards
         }
+
+function get_user_list(gameId) {
+
+
+    $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: "/api/users",
+        data: JSON.stringify(gameId),
+        dataType: 'json',
+        cache: false,
+        timeout: 600000,
+        success: function (data) {
+            var table = document.getElementById('secondtable')
+            var arrayLength = data.length;
+            for (var i =0; i< arrayLength;i++)
+            {
+                var x = data[i]
+                var row = table.insertRow(i)
+                row.insertCell(0)
+                row.cells[0].innerHTML = x
+            }
+
+            console.log("SUCCESS : ", data);
+            $("#btn-search").prop("disabled", false);
+
+        },
+        error: function (e) {
+
+            var json = "<h4>Ajax Response</h4><pre>"
+                + e.responseText + "</pre>";
+            $('#feedback').html(json);
+
+            console.log("ERROR : ", e);
+            $("#btn-search").prop("disabled", false);
+
+        }
+    });
+    }
+
 
 function get_values(userId, gameId, round)   {
              var histReq = {}

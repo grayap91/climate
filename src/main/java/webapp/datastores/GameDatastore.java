@@ -3,6 +3,7 @@ package webapp.datastores;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import webapp.controller.PlayerPresentException;
 import webapp.model.Game;
 import webapp.model.Player;
 import webapp.model.PlayerType;
@@ -73,19 +74,26 @@ public class GameDatastore {
             {
                 return false;
             }
-            game.addPlayer(new Player(generateRobotUsername(), PlayerType.MBS));
+            try {
+                game.addPlayer(new Player(generateRobotUsername(), PlayerType.MBS));
+            }
+            catch (PlayerPresentException e)
+            {
+                e.printStackTrace();
+                //should never happen
+            }
             return true;
         }
     }
 
     private String generateRobotUsername()
     {
-        String out =  robotPrefix+Integer.toString(robotIndex);
+        String out =  robotPrefix+Long.toString(robotIndex);
         robotIndex++;
         return out;
     }
 
-    public String addPlayer(String username, PlayerType playerType)
+    public String addPlayer(String username, PlayerType playerType) throws PlayerPresentException
     {
         String gameId = createGameId(numGamesCounter);
         Player player = new Player(username, playerType);

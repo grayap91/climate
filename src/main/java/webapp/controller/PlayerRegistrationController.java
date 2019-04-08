@@ -46,20 +46,21 @@ public class PlayerRegistrationController {
         }
 
         username = username.replace("\"", "");
-        if (players.containsPlayer(username, PlayerType.HUMAN))
         {
-            result.setRegistered(false);
-            result.setMsg("This user is already registered");
-            return ResponseEntity.ok().body(result);
-            //no need to do anything further
-        }
-        else
-        {
-            String gameId = players.addPlayer(username, PlayerType.HUMAN);
-            result.setGameId(gameId);
-            result.setRegistered(true);
-            result.setMsg(username+" registered");
-            return ResponseEntity.ok().body(result);
+            try {
+                String gameId = players.addPlayer(username, PlayerType.HUMAN);
+                result.setGameId(gameId);
+                result.setRegistered(true);
+                result.setMsg(username+" registered");
+                return ResponseEntity.ok().body(result);
+            }
+            catch (PlayerPresentException p)
+            {
+                result.setRegistered(false);
+                result.setMsg("Please try again shortly");
+                return ResponseEntity.ok().body(result);
+            }
+
         }
     }
 

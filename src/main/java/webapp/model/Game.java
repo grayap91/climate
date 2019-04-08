@@ -4,6 +4,7 @@ import com.opencsv.CSVWriter;
 import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import org.apache.commons.lang3.tuple.Pair;
+import webapp.controller.PlayerPresentException;
 import webapp.util.Util;
 
 import java.io.FileWriter;
@@ -40,8 +41,12 @@ public class Game implements Runnable {
         return playerList;
     }
 
-    public boolean addPlayer(Player player)
+    public boolean addPlayer(Player player) throws PlayerPresentException
     {
+        if(getPlayerList().contains(player))
+        {
+            throw new PlayerPresentException();
+        }
         if(playerList.size() < numPlayersMax) {
             playerList.add(player);
             player2Value.put(player, Util.generateRandomValueProfile());
@@ -95,6 +100,14 @@ public class Game implements Runnable {
         {
             b = false;
         }
+    }
+
+    public String getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(String gameId) {
+        this.gameId = gameId;
     }
 
     String gameId;
