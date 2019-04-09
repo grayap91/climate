@@ -1,5 +1,7 @@
 package webapp.controller;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
@@ -11,7 +13,9 @@ import webapp.model.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -37,7 +41,11 @@ public class UserHistoryController {
 
         } else {
             gameId = gameId.replace("\"", "");
-            List<String> list = datastore.getPlayersInGame(gameId).stream().map(x -> x.getUserId()).collect(Collectors.toList());
+            List<Player> list = new ArrayList<>();
+            for (Player player : datastore.getPlayersInGame(gameId))
+            {
+                list.add(player);
+            }
             return ResponseEntity.ok(list);
         }
     }

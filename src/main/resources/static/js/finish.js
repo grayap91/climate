@@ -23,11 +23,12 @@ function getUserHistory(userId, gameId, round)  {
                      timeout: 600000,
                      success: function (data) {
                                list = data['list']
+                               prev = 0
                                var table = document.getElementById('firsttable')
                                for(r=1;r<=round;r++)
                                {
                                var row = table.insertRow(r)
-                               for(i=0;i<5;i++)
+                               for(i=0;i<6;i++)
                                {
                                    row.insertCell(i)
                                }
@@ -42,6 +43,8 @@ function getUserHistory(userId, gameId, round)  {
                                row.cells[2].innerHTML = price
                                row.cells[3].innerHTML = bids.join()
                                row.cells[4].innerHTML = profit
+                               row.cells[5].innerHTML = profit-prev
+                               prev = profit
                                }
 
                     },

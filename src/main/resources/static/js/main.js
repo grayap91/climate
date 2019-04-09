@@ -9,7 +9,7 @@ $(document).ready(function () {
     get_user_list(gameId)
 
 
-    var timeout = 100000
+    var timeout = 60000
     setTimeout(function(){
        fire_ajax_submit(userId, gameId, round, 0, 0, 0);
      }, timeout);
@@ -57,10 +57,11 @@ function getUserHistory(userId, gameId, round)  {
                      success: function (data) {
                                list = data['list']
                                var table = document.getElementById('firsttable')
+                               prev = 0
                                for(r=1;r<round;r++)
                                {
                                var row = table.insertRow(r)
-                               for(i=0;i<5;i++)
+                               for(i=0;i<6;i++)
                                {
                                    row.insertCell(i)
                                }
@@ -75,6 +76,8 @@ function getUserHistory(userId, gameId, round)  {
                                row.cells[2].innerHTML = price
                                row.cells[3].innerHTML = bids.join()
                                row.cells[4].innerHTML = profit
+                               row.cells[5].innerHTML = profit-prev
+                               prev = profit
                                }
 
                     },
@@ -99,14 +102,14 @@ function get_user_list(gameId) {
         success: function (data) {
             var table = document.getElementById('secondtable')
             var arrayLength = data.length;
-            for (var i =0; i< arrayLength;i++)
+            for(i=1;i<=arrayLength;i++)
             {
-                var x = data[i]
-                var row = table.insertRow(i)
-                row.insertCell(0)
-                row.cells[0].innerHTML = x
+            var row = table.insertRow(i)
+            row.insertCell(0)
+            row.insertCell(1)
+            row.cells[0].innerHTML = data[i-1]['username']
+            row.cells[1].innerHTML = data[i-1]['valueType']
             }
-
             console.log("SUCCESS : ", data);
             $("#btn-search").prop("disabled", false);
 

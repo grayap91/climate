@@ -58,7 +58,7 @@ public class Util {
         Random random = new Random();
         for(int i=1; i<=10; i++)
         {
-            int num = random.nextInt(100)+1;
+            int num = random.nextInt(100);
             list.add(num);
         }
 
@@ -79,7 +79,7 @@ public class Util {
         Random random = new Random();
         for(int i=1; i<=10; i++)
         {
-            int num = random.nextInt(20)+60;
+            int num = random.nextInt(20)+40;
             list.add(num);
         }
 

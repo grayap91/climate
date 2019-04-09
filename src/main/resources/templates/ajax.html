@@ -11,6 +11,13 @@
 b1 {
     text-align: right;
 }
+table, th, td {
+  border: 1px solid black;
+  padding: 5px;
+}
+table {
+  border-spacing: 15px;
+}
 
 </style>
 </head>
@@ -71,7 +78,8 @@ b1 {
             <th>Allocated</th>
             <th>Price</th>
             <th>Bids</th>
-            <th>Profit</th>
+            <th>Cumulative Profit</th>
+            <th>Round Profit</th>
             </thead>
             <tbody id="insertfirsttable">
             </tbody>
@@ -83,9 +91,14 @@ b1 {
         <div id="secondtablediv" style="width: 800px; float: left;margin-top: 2;">
             <h3>Users</h3>
             <table id="secondtable" border="1">
+                <thead>
+                <th>Username</th>
+                <th>UserType</th>
+                </thead>
                 <tbody id="insertsecondtable">
                 </tbody>
             </table>
+
         </div>
     </div>
     </div>
