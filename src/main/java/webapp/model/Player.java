@@ -9,6 +9,16 @@ public class Player {
 
     PlayerType playerType;
 
+    public ValueType getValueType() {
+        return valueType;
+    }
+
+    public void setValueType(ValueType valueType) {
+        this.valueType = valueType;
+    }
+
+    ValueType valueType;
+
     public Player(String username, PlayerType playerType)
     {
         this.username = username;

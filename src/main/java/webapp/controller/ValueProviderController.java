@@ -25,6 +25,8 @@ public class ValueProviderController {
     @Autowired
     GameDatastore gameDatastore;
 
+    public static final int item_cap = 10;
+
     @PostMapping("/api/value")
     public ResponseEntity<?> startGame(
             @Valid @RequestBody HistoryRequest request, Errors errors) {
@@ -47,7 +49,7 @@ public class ValueProviderController {
             Game game = gameDatastore.getGame(gameId);
             int allocation = game.getTotalAllocation(userId);
             List<Integer> values = game.getValue(userId);
-            List<Integer> requiredValues = values.subList(allocation, values.size());
+            List<Integer> requiredValues = values.subList(allocation, item_cap);
             profile.setValues(requiredValues);
             return ResponseEntity.ok(profile);
         }

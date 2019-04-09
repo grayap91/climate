@@ -1,6 +1,7 @@
 package webapp.util;
 
 import webapp.model.Player;
+import webapp.model.ValueType;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,21 +35,20 @@ public class Util {
 
     }
 
-    public static List<Integer> generateRandomValueProfile()
+    public static List<Integer> generateRandomValueProfile(ValueType valueType)
     {
-        //decreasing marginal value
-        List<Integer> list = new ArrayList<>();
-        Random random = new Random();
-        int num = random.nextInt(1000)+1;
-        list.add(num);
-        for(int i=1; i<=30; i++)
+        if(valueType == ValueType.FLAT)
         {
-            num = random.nextInt(1000)+1;
-            list.add(num);
+            return uniformRandom2();
         }
-        Collections.sort(list, Collections.reverseOrder());
-        return list;
-        //generate a random number
+        else if(valueType == ValueType.STEP)
+        {
+            return uniformRandom3();
+        }
+        else
+        {
+            return uniformRandom();
+        }
 
     }
 

@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import webapp.controller.PlayerPresentException;
-import webapp.model.Game;
-import webapp.model.Player;
-import webapp.model.PlayerType;
-import webapp.model.ValueProfile;
+import webapp.model.*;
 import webapp.util.Util;
 
 import java.util.*;
@@ -76,7 +73,22 @@ public class GameDatastore {
                 return false;
             }
             try {
-                game.addPlayer(new Player(generateRobotUsername(), PlayerType.MBS));
+                ValueType valueType;
+                if(robotIndex%3==0)
+                {
+                    valueType = ValueType.FLAT;
+                }
+                else if(robotIndex%3==1)
+                {
+                    valueType = ValueType.UNIF;
+                }
+                else
+                {
+                    valueType = ValueType.STEP;
+                }
+                Player player = new Player(generateRobotUsername(), PlayerType.MBS);
+                player.setValueType(valueType);
+                game.addPlayer(player);
             }
             catch (PlayerPresentException e)
             {
@@ -98,6 +110,20 @@ public class GameDatastore {
     {
         String gameId = createGameId(numGamesCounter);
         Player player = new Player(username, playerType);
+        ValueType valueType;
+        if(username.hashCode()%3==0)
+        {
+            valueType = ValueType.FLAT;
+        }
+        else if(username.hashCode()%3==1)
+        {
+            valueType = ValueType.UNIF;
+        }
+        else
+        {
+            valueType = ValueType.STEP;
+        }
+        player.setValueType(valueType);
         if(gameMap.containsKey(gameId))
         {
             Game game = gameMap.get(gameId);

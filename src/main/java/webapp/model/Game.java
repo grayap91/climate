@@ -51,7 +51,7 @@ public class Game implements Runnable {
         }
         if(playerList.size() < numPlayersMax) {
             playerList.add(player);
-            player2Value.put(player, Util.generateRandomValueProfile());
+            player2Value.put(player, Util.generateRandomValueProfile(player.valueType));
             return true;
         }
         return false;
