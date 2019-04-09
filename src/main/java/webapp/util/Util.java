@@ -52,5 +52,71 @@ public class Util {
 
     }
 
+    private static List<Integer> uniformRandom()
+    {
+        List<Integer> list = new ArrayList<>();
+        Random random = new Random();
+        for(int i=1; i<=10; i++)
+        {
+            int num = random.nextInt(100)+1;
+            list.add(num);
+        }
+
+        for(int i=1; i<=20; i++)
+        {
+            list.add(0);
+        }
+        Collections.sort(list, Collections.reverseOrder());
+        return list;
+        //generate a random number
+
+    }
+
+    private static List<Integer> uniformRandom2()
+    {
+        //uniform between 60 and 80
+        List<Integer> list = new ArrayList<>();
+        Random random = new Random();
+        for(int i=1; i<=10; i++)
+        {
+            int num = random.nextInt(20)+60;
+            list.add(num);
+        }
+
+        for(int i=1; i<=20; i++)
+        {
+            list.add(0);
+        }
+        Collections.sort(list, Collections.reverseOrder());
+        return list;
+        //generate a random number
+    }
+
+    private static List<Integer> uniformRandom3()
+    {
+        //2 zones, uniform between 70,80 and then between 20,30
+        List<Integer> list = new ArrayList<>();
+        Random random = new Random();
+        for(int i=1; i<=5; i++)
+        {
+            int num = random.nextInt(10)+70;
+            list.add(num);
+        }
+
+        for(int i=1; i<=5; i++)
+        {
+            int num = random.nextInt(10)+20;
+            list.add(num);
+        }
+
+        for(int i=1; i<=20; i++)
+        {
+            list.add(0);
+        }
+        Collections.sort(list, Collections.reverseOrder());
+        return list;
+        //generate a random number
+    }
+
 
 }
