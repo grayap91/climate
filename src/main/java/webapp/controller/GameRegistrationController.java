@@ -37,6 +37,7 @@ public class GameRegistrationController {
             @Valid @RequestBody String gameId, Errors errors) {
 
         GameRegistrationResponseBody result = new GameRegistrationResponseBody();
+        gameId = gameId.replace("\"", "");
 
         //If error, just return a 400 bad request, along with the error message
         if (errors.hasErrors()) {
@@ -48,33 +49,32 @@ public class GameRegistrationController {
             return ResponseEntity.badRequest().body(result);
 
         }
-        else
-        {
-            gameId = gameId.replace("\"", "");
-            //this is a hack , figure out why you're getting these extra quotes
+        else {
 
+            //this is a hack , figure out why you're getting these extra quotes
+            int i = 100;
+            while (i > 0) {
                 try {
-                    Thread.sleep(waitTime);
+                    Thread.sleep(waitTime / 100);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
                 if (datastore.isGameFull(gameId)) {
                     datastore.startGame(gameId);
-                } else {
-                    int num = datastore.getPlayersInGame(gameId).size();
-                    int players2add = numPlayerLimit - num;
-                    while(players2add >0)
-                    {
-                        datastore.addRobotPlayer2Game(gameId);
-                        players2add--;
-                    }
+                    return ResponseEntity.ok(result);
                 }
 
-            datastore.startGame(gameId);
+            }
+
             //have to only start the game once
+            int num = datastore.getPlayersInGame(gameId).size();
+            int players2add = numPlayerLimit - num;
+            while (players2add > 0) {
+                datastore.addRobotPlayer2Game(gameId);
+                players2add--;
+            }
         }
-
-
+        datastore.startGame(gameId);
         return ResponseEntity.ok(result);
 
     }
