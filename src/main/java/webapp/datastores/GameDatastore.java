@@ -28,8 +28,6 @@ public class GameDatastore {
     @Value("${robot.ratio:1.0}")
     private double ratio;
 
-    public static final int numPlayerLimit = 5  ;
-
     public static final String gamePrefix = "game";
 
     public static final String robotPrefix = "robot";
@@ -136,9 +134,9 @@ public class GameDatastore {
         return gamePrefix+num;
     }
 
-    public boolean isGameFull(String gameId)
+    public boolean isGameFullofHumans(String gameId)
     {
-        return gameMap.get(gameId).isReady();
+        return gameMap.get(gameId).isFullofHumans();
     }
 
     public Set<Player> getPlayersInGame(String gameId)

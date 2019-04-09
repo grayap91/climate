@@ -23,7 +23,9 @@ public class Game implements Runnable {
 
     public static final int numGoodsPerPeriod = 3;
 
-    public static final int numPlayersMax = 5;
+    public static final int numHumanPlayersMax = 3;
+
+    public static final int numPlayersMax = 6;
 
     private int round = 1;
 
@@ -115,6 +117,23 @@ public class Game implements Runnable {
     public boolean isReady()
     {
         return playerList.size() == numPlayersMax;
+    }
+
+    public boolean isFullofHumans()
+    {
+        int count = 0;
+        for(Player player : playerList)
+        {
+            if(player.playerType==PlayerType.HUMAN)
+            {
+                count++;
+            }
+        }
+        if(count>= numHumanPlayersMax)
+        {
+            return true;
+        }
+        return false;
     }
 
     public Player getPlayerById(String userId)
