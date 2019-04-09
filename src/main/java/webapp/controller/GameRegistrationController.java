@@ -16,7 +16,6 @@ import webapp.model.GameRegistrationResponseBody;
 import javax.validation.Valid;
 import java.util.stream.Collectors;
 
-import static webapp.datastores.GameDatastore.numPlayerLimit;
 
 /**
  * Created by Gautam on 2018-08-05.
@@ -59,23 +58,31 @@ public class GameRegistrationController {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                if (datastore.isGameFull(gameId)) {
+                if (datastore.isGameFullofHumans(gameId)) {
+                    int num = datastore.getPlayersInGame(gameId).size();
+                    int players2add = Game.numPlayersMax - num;
+                    while (players2add > 0) {
+                        datastore.addRobotPlayer2Game(gameId);
+                        players2add--;
+                    }
                     datastore.startGame(gameId);
                     return ResponseEntity.ok(result);
                 }
+                i--;
 
             }
 
             //have to only start the game once
             int num = datastore.getPlayersInGame(gameId).size();
-            int players2add = numPlayerLimit - num;
+            int players2add = Game.numPlayersMax - num;
             while (players2add > 0) {
                 datastore.addRobotPlayer2Game(gameId);
                 players2add--;
             }
+            datastore.startGame(gameId);
+            return ResponseEntity.ok(result);
         }
-        datastore.startGame(gameId);
-        return ResponseEntity.ok(result);
+
 
     }
 }
