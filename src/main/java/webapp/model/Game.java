@@ -202,16 +202,6 @@ public class Game implements Runnable {
 
     }
 
-    public double getRatio() {
-        return ratio;
-    }
-
-    public void setRatio(double ratio) {
-        this.ratio = ratio;
-    }
-
-    double ratio;
-
     private void submitRobotBids(int round)
     {
         for(Player player : playerList)
@@ -225,6 +215,8 @@ public class Game implements Runnable {
                 bid.setGameId(gameId);
                 bid.setRound(round);
                 bid.setUserId(player.getUserId());
+                double ratio = player.getRatio();
+                ratio += player.getRatioDeriv()*(round-1);
                 bid.setBid1(Integer.toString((int)(values.get(allocation)*ratio)));
                 bid.setBid2(Integer.toString((int)(values.get(allocation+1)*ratio)));
                 bid.setBid3(Integer.toString((int)(values.get(allocation+2)*ratio)));
@@ -280,7 +272,53 @@ public class Game implements Runnable {
         long number = (long) Math.floor(Math.random() * 9_000_000_000L) + 1_000_000_000L;
         writeRowLevelData(number);
         writeValueData(number);
+        writeSummaryData(number);
         //what do here?
+    }
+
+    private void writeSummaryData(long number)
+    {
+        List<String> out = new ArrayList<>();
+        String filename = writeDir+number+"_summary.csv";
+        for (Player player : playerList)
+        {
+            StringBuilder sb  = new StringBuilder();
+            sb.append(player.getUsername());
+            sb.append(","+player.getValueType().toString());
+            sb.append(","+calcCumulativeProfit(player, numRounds)+"\n");
+            //compute cumulative profit
+            out.add(sb.toString());
+        }
+        try {
+            Writer writer = new FileWriter(filename);
+            for(String s :out) {
+                writer.write(s);
+            }
+            writer.close();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+    }
+
+    private int calcCumulativeProfit(Player player, int round)
+    {
+        int profit=0;
+        List<Integer> values = player2Value.get(player);
+        int counter=0;
+        for(int i = 1; i<=round; i++)
+        {
+            int allocation = allocationHistory.getAllocationForPlayer(player, i);
+            int price = biddingHistory.getPrice(i);
+            for(int j=0; j<allocation;j++)
+            {
+                profit+=(values.get(counter)-price);
+                counter++;
+            }
+        }
+        return profit;
     }
 
     private void writeValueData(long number)
@@ -290,7 +328,8 @@ public class Game implements Runnable {
         for (Player player : playerList)
         {
             StringBuilder sb  = new StringBuilder();
-            sb.append(player.getUserId());
+            sb.append(player.getUsername());
+            sb.append(","+player.getValueType().toString());
             List<Integer> values = player2Value.get(player);
             for( int val : values)
             {
@@ -341,13 +380,20 @@ public class Game implements Runnable {
             int totalAllocationPrior = allocationHistory.getTotalAllocation(player) - allocation;
             int[] values = player2Value.get(player).subList(totalAllocationPrior,totalAllocationPrior+3).stream().mapToInt(i->i).toArray();
             row.setValue1(Integer.toString(values[0]));
-            row.setValue1(Integer.toString(values[0]));
-            row.setValue1(Integer.toString(values[0]));
+            row.setValue2(Integer.toString(values[1]));
+            row.setValue3(Integer.toString(values[2]));
             Bid bid = biddingHistory.getBid(player, round);
             row.setBid1(bid.getBid1());
             row.setBid2(bid.getBid2());
             row.setBid3(bid.getBid3());
-            row.setPrice(biddingHistory.getPrice(round));
+            int price = biddingHistory.getPrice(round);
+            row.setPrice(price);
+            int profit = 0;
+            for(int i =0; i<allocation; i++)
+            {
+                profit += (values[i]-price);
+            }
+            row.setProfit(profit);
             outputRows.add(row);
         }
 

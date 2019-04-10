@@ -212,7 +212,7 @@ function fire_ajax_submit(userId, gameId, round, bid1, bid2, bid3) {
             }
             else
             {
-                window.location = '/finish?user=' + userId+'&game=' +gameId+'&round='+round;
+                window.location = '/finish?user=' + userId+'&game=' +gameId+'&round=11';
             }
 
         },

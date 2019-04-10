@@ -25,6 +25,8 @@ public class GameDatastore {
     @Value("${robot.ratio:1.0}")
     private double ratio;
 
+    private static final double eps = 0.01;
+
     public static final String gamePrefix = "game";
 
     public static final String robotPrefix = "robot";
@@ -88,6 +90,10 @@ public class GameDatastore {
                 }
                 Player player = new Player(generateRobotUsername(), PlayerType.MBS);
                 player.setValueType(valueType);
+                Random random = new Random();
+                ratio = ratio + (random.nextDouble())*(1-ratio);
+                player.setRatio(ratio);
+                player.setRatioDeriv(eps);
                 game.addPlayer(player);
             }
             catch (PlayerPresentException e)
@@ -145,7 +151,6 @@ public class GameDatastore {
             gameId = createGameId(numGamesCounter);
             Game game = new Game(gameId);
             game.setWriteDir(writeLocation);
-            game.setRatio(ratio);
             boolean added = game.addPlayer(player);
             gameMap.put(gameId, game);
             player2Game.put(player, new Game(gameId));

@@ -12,6 +12,17 @@ public class OutputRow {
     String bid2;
     String bid3;
 
+
+    public int getProfit() {
+        return profit;
+    }
+
+    public void setProfit(int profit) {
+        this.profit = profit;
+    }
+
+    int profit;
+
     public String getUserId() {
         return userId;
     }

@@ -13,6 +13,28 @@ public class Player {
         return valueType;
     }
 
+    public double getRatio() {
+        return ratio;
+    }
+
+    public void setRatio(double ratio) {
+        this.ratio = ratio;
+    }
+
+    private double ratio;
+
+    public double getRatioDeriv() {
+        return ratioDeriv;
+    }
+
+    public void setRatioDeriv(double ratioDeriv) {
+        this.ratioDeriv = ratioDeriv;
+    }
+
+    private double ratioDeriv;
+
+    //robot params
+
     public void setValueType(ValueType valueType) {
         this.valueType = valueType;
     }
