@@ -25,7 +25,7 @@ function getUserHistory(userId, gameId, round)  {
                                list = data['list']
                                prev = 0
                                var table = document.getElementById('firsttable')
-                               for(r=1;r<=round;r++)
+                               for(r=1;r<round;r++)
                                {
                                var row = table.insertRow(r)
                                for(i=0;i<6;i++)

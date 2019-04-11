@@ -13,6 +13,7 @@ import webapp.model.ValueProfile;
 import webapp.util.Util;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,7 +50,22 @@ public class ValueProviderController {
             Game game = gameDatastore.getGame(gameId);
             int allocation = game.getTotalAllocation(userId);
             List<Integer> values = game.getValue(userId);
-            List<Integer> requiredValues = values.subList(allocation, item_cap);
+            List<Integer> requiredValues;
+            if(allocation < item_cap) {
+                requiredValues = values.subList(allocation, item_cap);
+                for(int i =0; i<10-(item_cap-allocation);i++)
+                {
+                    requiredValues.add(0);
+                }
+            }
+            else
+            {
+                requiredValues = new ArrayList<>(10);
+                for(int i=0; i<requiredValues.size();i++)
+                {
+                    requiredValues.add(0);
+                }
+            }
             profile.setValues(requiredValues);
             return ResponseEntity.ok(profile);
         }

@@ -22,10 +22,11 @@ public class GameDatastore {
     @Value("${write.dir}")
     private String writeLocation;
 
-    @Value("${robot.ratio:1.0}")
+    @Value("${robot.ratio:0.8}")
     private double ratio;
 
-    private static final double eps = 0.01;
+    @Value("${robot.rate:0}")
+    private double eps;
 
     public static final String gamePrefix = "game";
 
@@ -140,6 +141,7 @@ public class GameDatastore {
                 numGamesCounter++;
                 gameId = createGameId(numGamesCounter);
                 game = new Game(gameId);
+                game.setWriteDir(writeLocation);
                 added = game.addPlayer(player);
                 player2Game.put(player, new Game(gameId));
                 gameMap.put(gameId, game);
@@ -194,7 +196,6 @@ public class GameDatastore {
             Thread thread = new Thread(gameMap.get(gameId));
             thread.start();
         }
-
 
     }
 
