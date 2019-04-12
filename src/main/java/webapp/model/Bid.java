@@ -57,7 +57,7 @@ public class Bid {
 
     public int getBid1Num()    {
         try{
-            return (int)Double.parseDouble(bid1);
+            return Integer.parseInt(bid1);
         }
         catch (Exception e)
         {
@@ -68,7 +68,7 @@ public class Bid {
 
     public int getBid2Num()    {
         try{
-            return (int)Double.parseDouble(bid2);
+            return Integer.parseInt(bid2);
         }
         catch (Exception e)
         {
@@ -79,7 +79,7 @@ public class Bid {
 
     public int getBid3Num()    {
         try{
-            return (int)Double.parseDouble(bid3);
+            return Integer.parseInt(bid3);
         }
         catch (Exception e)
         {
